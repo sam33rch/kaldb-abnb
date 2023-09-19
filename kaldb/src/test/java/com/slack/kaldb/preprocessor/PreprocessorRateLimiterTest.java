@@ -221,10 +221,11 @@ public class PreprocessorRateLimiterTest {
         new PreprocessorRateLimiter(
             meterRegistry, preprocessorCount, maxBurstSeconds, initializeWarm);
 
-    String name = "rateLimiter";
+    String name1 = "rateLimiter1";
+    String name2 = "rateLimiter2";
     Trace.Span span =
         Trace.Span.newBuilder()
-            .addTags(Trace.KeyValue.newBuilder().setKey(SERVICE_NAME_KEY).setVStr(name).build())
+            .addTags(Trace.KeyValue.newBuilder().setKey(SERVICE_NAME_KEY).setVStr(name2).build())
             .build();
 
     // set the target so that we pass the first add, then fail the second
@@ -233,15 +234,15 @@ public class PreprocessorRateLimiterTest {
     // Dataset 1 has service name will never match the record while dataset 2 will match
     DatasetMetadata datasetMetadata1 =
         new DatasetMetadata(
-            name,
-            name,
+            name1,
+            name1,
             targetThroughput,
             List.of(new DatasetPartitionMetadata(100, 200, List.of("0"))),
             "no_service_matching_docs");
     DatasetMetadata datasetMetadata2 =
         new DatasetMetadata(
-            name,
-            name,
+            name2,
+            name2,
             targetThroughput,
             List.of(new DatasetPartitionMetadata(100, 200, List.of("0"))),
             DatasetMetadata.MATCH_ALL_SERVICE);
