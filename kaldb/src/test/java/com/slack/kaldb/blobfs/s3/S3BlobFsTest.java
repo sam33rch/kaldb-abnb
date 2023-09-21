@@ -26,6 +26,7 @@ import software.amazon.awssdk.services.s3.model.HeadObjectResponse;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
+@Deprecated
 public class S3BlobFsTest {
   @RegisterExtension
   public static final S3MockExtension S3_MOCK_EXTENSION =
