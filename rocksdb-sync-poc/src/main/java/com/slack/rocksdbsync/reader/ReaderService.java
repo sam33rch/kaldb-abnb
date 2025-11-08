@@ -1,6 +1,11 @@
 package com.slack.rocksdbsync.reader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.slack.rocksdbsync.common.JsonUtil;
+import com.slack.rocksdbsync.common.SnapshotDescriptors.SnapshotFileEntry;
+import com.slack.rocksdbsync.common.SnapshotDescriptors.SnapshotFileType;
+import com.slack.rocksdbsync.common.SnapshotDescriptors.SnapshotManifest;
+import com.slack.rocksdbsync.common.SnapshotDescriptors.SnapshotPointer;
 import com.slack.rocksdbsync.s3.S3Helper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -13,21 +18,25 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
+import org.rocksdb.RocksDBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public final class ReaderService implements AutoCloseable {
   private static final Logger LOG = LoggerFactory.getLogger(ReaderService.class);
   private static final ObjectMapper MAPPER = new ObjectMapper();
+  private static final String SNAPSHOT_POINTER_KEY = "kaldb_snapshot_manifest.json";
+  private static final String LOCAL_MANIFEST_FILENAME = "kaldb_db_manifest.json";
 
   static {
     RocksDB.loadLibrary();
@@ -37,9 +46,11 @@ public final class ReaderService implements AutoCloseable {
   private HttpServer httpServer;
   private ScheduledExecutorService scheduler;
   private S3Helper s3Helper;
-  private Options options;
+  private Options readOnlyOptions;
   private RocksDB db;
   private final ReentrantReadWriteLock dbLock = new ReentrantReadWriteLock();
+  private String pointerEtag;
+  private String currentManifestId;
 
   public ReaderService(ReaderConfig config) {
     this.config = config;
@@ -47,10 +58,17 @@ public final class ReaderService implements AutoCloseable {
 
   public void start() {
     try {
-      Files.createDirectories(config.activeDbPath());
-      Files.createDirectories(config.stagingPath());
-      options = new Options().setCreateIfMissing(true);
-      db = RocksDB.open(options, config.activeDbPath().toString());
+      Files.createDirectories(config.dbPath());
+      LOG.info("Reader DB directory: {}", config.dbPath());
+      readOnlyOptions = new Options().setCreateIfMissing(true);
+      try {
+        db = RocksDB.openReadOnly(readOnlyOptions, config.dbPath().toString());
+        loadLocalManifestId();
+      } catch (RocksDBException e) {
+        db = null;
+        LOG.info(
+            "Reader DB not initialized yet ({}). Waiting for first snapshot.", e.getMessage());
+      }
 
       s3Helper =
           S3Helper.builder()
@@ -80,14 +98,105 @@ public final class ReaderService implements AutoCloseable {
     }
   }
 
-  private void syncFromS3() {
-    try {
-      s3Helper.downloadToDirectory(config.stagingPath());
-    } catch (IOException e) {
-      LOG.warn("No snapshot available yet: {}", e.getMessage());
+  private void loadLocalManifestId() {
+    Path manifestPath = config.dbPath().resolve(LOCAL_MANIFEST_FILENAME);
+    if (!Files.exists(manifestPath)) {
       return;
     }
+    try {
+      byte[] data = Files.readAllBytes(manifestPath);
+      SnapshotManifest manifest = JsonUtil.fromJson(data, SnapshotManifest.class);
+      currentManifestId = manifest.manifestId;
+    } catch (Exception e) {
+      LOG.warn("Failed to read local manifest: {}", e.getMessage());
+    }
+  }
 
+  private void syncFromS3() {
+    try {
+      Optional<S3Helper.ObjectContent> pointerData =
+          currentManifestId == null
+              ? s3Helper.getObject(SNAPSHOT_POINTER_KEY)
+              : s3Helper.getObject(SNAPSHOT_POINTER_KEY, pointerEtag);
+      if (pointerData.isEmpty()) {
+        if (currentManifestId == null) {
+          LOG.debug("Snapshot pointer not available yet; retrying.");
+        }
+        return;
+      }
+      SnapshotPointer pointer = JsonUtil.fromJson(pointerData.get().data(), SnapshotPointer.class);
+      if (pointer.latestManifestId == null
+          || pointer.latestManifestId.equals(currentManifestId)) {
+        if (currentManifestId == null) {
+          LOG.debug("No manifest applied yet; waiting for writer to publish snapshot.");
+        }
+        return;
+      }
+      if (applySnapshot(pointer)) {
+        pointerEtag = pointerData.get().eTag();
+      }
+    } catch (IOException e) {
+      LOG.warn("Failed to sync snapshot: {}", e.getMessage());
+    }
+  }
+
+  private boolean applySnapshot(SnapshotPointer pointer) {
+    try {
+      String manifestKey = s3Helper.relativeKeyFromUri(pointer.snapshotManifestUri);
+      SnapshotManifest snapshotManifest =
+          s3Helper
+              .getObject(manifestKey)
+              .map(content -> JsonUtil.fromJson(content.data(), SnapshotManifest.class))
+              .orElseThrow(() -> new IllegalStateException("Snapshot manifest missing"));
+
+      downloadSnapshotFiles(snapshotManifest);
+      persistLocalManifest(snapshotManifest);
+      reloadDatabase(snapshotManifest.manifestId);
+      return true;
+    } catch (Exception e) {
+      LOG.error("Failed to apply snapshot {}", pointer.latestManifestId, e);
+      return false;
+    }
+  }
+
+  private void downloadSnapshotFiles(SnapshotManifest manifest) throws IOException {
+    SnapshotFileEntry currentEntry = null;
+    for (SnapshotFileEntry entry : manifest.files) {
+      if (entry.type == SnapshotFileType.CURRENT) {
+        currentEntry = entry;
+        continue;
+      }
+      downloadIfNeeded(entry);
+    }
+    if (currentEntry != null) {
+      downloadIfNeeded(currentEntry);
+    } else {
+      throw new IllegalStateException("Snapshot missing CURRENT file");
+    }
+  }
+
+  private void downloadIfNeeded(SnapshotFileEntry entry) throws IOException {
+    Path target = config.dbPath().resolve(entry.name);
+    boolean shouldDownload =
+        entry.type != SnapshotFileType.SST || Files.notExists(target);
+    if (!shouldDownload) {
+      return;
+    }
+    String relativeKey = s3Helper.relativeKeyFromUri(entry.s3Uri);
+    s3Helper.downloadObject(relativeKey, target);
+  }
+
+  private void persistLocalManifest(SnapshotManifest manifest) throws IOException {
+    Path manifestPath = config.dbPath().resolve(LOCAL_MANIFEST_FILENAME);
+    Files.write(
+        manifestPath,
+        JsonUtil.toJsonBytes(manifest),
+        StandardOpenOption.CREATE,
+        StandardOpenOption.TRUNCATE_EXISTING,
+        StandardOpenOption.WRITE);
+  }
+
+  private void reloadDatabase(String manifestId) {
     dbLock.writeLock().lock();
     try {
       if (db != null) {
@@ -95,18 +204,22 @@ public final class ReaderService implements AutoCloseable {
         db = null;
       }
 
-      deleteDirectory(config.activeDbPath());
-      Files.createDirectories(config.activeDbPath().getParent());
-      Files.move(
-          config.stagingPath(),
-          config.activeDbPath(),
-          StandardCopyOption.REPLACE_EXISTING);
-      Files.createDirectories(config.stagingPath());
+      try (Options writeOptions = new Options().setCreateIfMissing(true);
+          RocksDB writable = RocksDB.open(writeOptions, config.dbPath().toString())) {
+        writable.compactRange();
+      } catch (RocksDBException e) {
+        throw new IllegalStateException("Failed to compact reader DB", e);
+      }
 
-      db = RocksDB.open(options, config.activeDbPath().toString());
-      LOG.info("Reader DB refreshed from S3.");
+      try {
+        db = RocksDB.openReadOnly(readOnlyOptions, config.dbPath().toString());
+      } catch (RocksDBException e) {
+        throw new IllegalStateException("Failed to reopen reader DB", e);
+      }
+      currentManifestId = manifestId;
+      LOG.info("Reader switched to manifest {}", manifestId);
     } catch (Exception e) {
-      LOG.error("Failed to swap reader DB", e);
+      LOG.error("Failed to reopen RocksDB", e);
     } finally {
       dbLock.writeLock().unlock();
     }
@@ -170,24 +283,6 @@ public final class ReaderService implements AutoCloseable {
     return params;
   }
 
-  private void deleteDirectory(Path path) throws IOException {
-    if (!Files.exists(path)) {
-      return;
-    }
-    try (Stream<Path> stream = Files.walk(path)) {
-      stream
-          .sorted((a, b) -> b.compareTo(a))
-          .forEach(
-              p -> {
-                try {
-                  Files.deleteIfExists(p);
-                } catch (IOException e) {
-                  throw new RuntimeException("Failed to delete " + p, e);
-                }
-              });
-    }
-  }
-
   private void sendResponse(HttpExchange exchange, int status, String message) throws IOException {
     byte[] payload = message.getBytes(StandardCharsets.UTF_8);
     exchange.sendResponseHeaders(status, payload.length);
@@ -213,8 +308,8 @@ public final class ReaderService implements AutoCloseable {
         db.close();
         db = null;
       }
-      if (options != null) {
-        options.close();
+      if (readOnlyOptions != null) {
+        readOnlyOptions.close();
       }
     } finally {
       dbLock.writeLock().unlock();

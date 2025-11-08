@@ -5,8 +5,7 @@ import java.time.Duration;
 import java.util.Optional;
 
 public record ReaderConfig(
-    Path activeDbPath,
-    Path stagingPath,
+    Path dbPath,
     String bucket,
     String prefix,
     String endpoint,
@@ -21,8 +20,7 @@ public record ReaderConfig(
   }
 
   public static final class Builder {
-    private Path activeDbPath;
-    private Path stagingPath;
+    private Path dbPath;
     private String bucket;
     private String prefix = "";
     private String endpoint;
@@ -33,10 +31,7 @@ public record ReaderConfig(
     private Duration restoreInterval = Duration.ofSeconds(30);
 
     public Builder fromEnv() {
-      Optional.ofNullable(System.getenv("READER_DB_PATH"))
-          .ifPresent(value -> activeDbPath = Path.of(value));
-      Optional.ofNullable(System.getenv("READER_STAGING_PATH"))
-          .ifPresent(value -> stagingPath = Path.of(value));
+      Optional.ofNullable(System.getenv("READER_DB_PATH")).ifPresent(value -> dbPath = Path.of(value));
       Optional.ofNullable(System.getenv("S3_BUCKET")).ifPresent(value -> bucket = value);
       Optional.ofNullable(System.getenv("S3_PREFIX")).ifPresent(value -> prefix = value);
       Optional.ofNullable(System.getenv("S3_ENDPOINT")).ifPresent(value -> endpoint = value);
@@ -51,13 +46,8 @@ public record ReaderConfig(
       return this;
     }
 
-    public Builder activeDbPath(Path activeDbPath) {
-      this.activeDbPath = activeDbPath;
-      return this;
-    }
-
-    public Builder stagingPath(Path stagingPath) {
-      this.stagingPath = stagingPath;
+    public Builder dbPath(Path dbPath) {
+      this.dbPath = dbPath;
       return this;
     }
 
@@ -98,18 +88,14 @@ public record ReaderConfig(
     }
 
     public ReaderConfig build() {
-      if (activeDbPath == null) {
-        activeDbPath = Path.of("reader-db");
-      }
-      if (stagingPath == null) {
-        stagingPath = Path.of("reader-staging");
+      if (dbPath == null) {
+        dbPath = Path.of(System.getProperty("user.home"), "temp", "rocksdb-reader");
       }
       if (bucket == null || bucket.isBlank()) {
         throw new IllegalStateException("S3_BUCKET must be set");
       }
       return new ReaderConfig(
-          activeDbPath,
-          stagingPath,
+          dbPath,
           bucket,
           prefix == null ? "" : prefix,
           endpoint,

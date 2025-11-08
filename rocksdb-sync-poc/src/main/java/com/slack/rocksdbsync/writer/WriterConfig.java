@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public record WriterConfig(
     Path dbPath,
+    Path snapshotPath,
     String bucket,
     String prefix,
     String endpoint,
@@ -21,6 +22,7 @@ public record WriterConfig(
 
   public static final class Builder {
     private Path dbPath;
+    private Path snapshotPath;
     private String bucket;
     private String prefix = "";
     private String endpoint;
@@ -33,6 +35,8 @@ public record WriterConfig(
     public Builder fromEnv() {
       Optional.ofNullable(System.getenv("WRITER_DB_PATH"))
           .ifPresent(value -> dbPath = Path.of(value));
+      Optional.ofNullable(System.getenv("WRITER_SNAPSHOT_PATH"))
+          .ifPresent(value -> snapshotPath = Path.of(value));
       Optional.ofNullable(System.getenv("S3_BUCKET")).ifPresent(value -> bucket = value);
       Optional.ofNullable(System.getenv("S3_PREFIX")).ifPresent(value -> prefix = value);
       Optional.ofNullable(System.getenv("S3_ENDPOINT")).ifPresent(value -> endpoint = value);
@@ -49,6 +53,11 @@ public record WriterConfig(
 
     public Builder dbPath(Path dbPath) {
       this.dbPath = dbPath;
+      return this;
+    }
+
+    public Builder snapshotPath(Path snapshotPath) {
+      this.snapshotPath = snapshotPath;
       return this;
     }
 
@@ -90,13 +99,17 @@ public record WriterConfig(
 
     public WriterConfig build() {
       if (dbPath == null) {
-        dbPath = Path.of("writer-db");
+        dbPath = Path.of(System.getProperty("user.home"), "temp", "rocksdb-writer");
+      }
+      if (snapshotPath == null) {
+        snapshotPath = Path.of(System.getProperty("user.home"), "temp", "snapshot-writer");
       }
       if (bucket == null || bucket.isBlank()) {
         throw new IllegalStateException("S3_BUCKET must be set");
       }
       return new WriterConfig(
           dbPath,
+          snapshotPath,
           bucket,
           prefix == null ? "" : prefix,
           endpoint,

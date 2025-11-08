@@ -66,7 +66,6 @@ public class RocksDbSyncIntegrationTest {
   void writerBackupsAreRestoredByReader() throws Exception {
     Path writerDb = Files.createTempDirectory("writer-db");
     Path readerDb = Files.createTempDirectory("reader-db");
-    Path readerStaging = Files.createTempDirectory("reader-staging");
 
     WriterConfig writerConfig =
         new WriterConfig.Builder()
@@ -83,8 +82,7 @@ public class RocksDbSyncIntegrationTest {
 
     ReaderConfig readerConfig =
         new ReaderConfig.Builder()
-            .activeDbPath(readerDb)
-            .stagingPath(readerStaging)
+            .dbPath(readerDb)
             .bucket(BUCKET)
             .prefix(prefix)
             .endpoint(ENDPOINT)
