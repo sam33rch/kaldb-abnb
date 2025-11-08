@@ -24,6 +24,7 @@
     <modules>
         <module>benchmarks</module>
         <module>astra</module>
+        <module>rocksdb-sync-poc</module>
     </modules>
 
     <build>

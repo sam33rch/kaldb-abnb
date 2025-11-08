@@ -479,6 +479,20 @@
             </exclusions>
         </dependency>
 
+        <!-- TestContainers for MinIO -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.19.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>1.19.8</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.github.charithe/kafka-junit -->
         <dependency>
             <groupId>com.github.charithe</groupId>
@@ -681,6 +695,8 @@
                         <version>1.24.0</version>
                     </dependency>
                 </dependencies>
+                <!-- Temporarily disabled for prototype testing -->
+                <!--
                 <executions>
                     <execution>
                         <goals>
@@ -688,6 +704,7 @@
                         </goals>
                     </execution>
                 </executions>
+                -->
             </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
