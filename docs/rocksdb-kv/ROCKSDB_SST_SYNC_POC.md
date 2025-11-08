@@ -1,7 +1,7 @@
 # RocksDB SST Sync Prototype – Working Plan
 
 ## Goals
-- Align with the canonical flow documented in `docs/ROCKSDB_CORE_SYNCHRONIZATION_PROTOCOL.md` while keeping the prototype self-contained.
+- Align with the canonical flow documented in `docs/rocksdb-kv/ROCKSDB_CORE_SYNCHRONIZATION_PROTOCOL.md` while keeping the prototype self-contained.
 - Demonstrate end-to-end “writer → S3 backup → reader restore” flow using actual HTTP servers.
 - Keep the prototype self-contained (no reuse of existing kaldb services); everything lives in a new package/module.
 - Use RocksDB’s built-in `BackupEngine` for incremental backups/restores instead of the ad-hoc manifest logic from the tests.
