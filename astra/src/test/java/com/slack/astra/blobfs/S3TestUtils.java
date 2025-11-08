@@ -17,7 +17,8 @@ public class S3TestUtils {
     return S3AsyncClient.crtBuilder()
         .region(Region.of("us-east-1"))
         .credentialsProvider(
-            StaticCredentialsProvider.create(AwsBasicCredentials.create("foo", "bar")))
+            StaticCredentialsProvider.create(
+                AwsBasicCredentials.create("minioadmin", "minioadmin")))
         .forcePathStyle(true)
         .checksumValidationEnabled(false) // https://github.com/adobe/S3Mock/issues/1123
         .endpointOverride(URI.create(serviceEndpoint))

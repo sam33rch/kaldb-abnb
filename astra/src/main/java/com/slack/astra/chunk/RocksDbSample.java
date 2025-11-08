@@ -5,7 +5,7 @@ import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
 
 public class RocksDbSample {
-  public static final String DB_FILE_PATH = "/Users/suman_karumuri/temp/rocksdb";
+  public static final String DB_FILE_PATH = "/Users/deesam/temp/rocksdb";
 
   static {
     RocksDB.loadLibrary();
