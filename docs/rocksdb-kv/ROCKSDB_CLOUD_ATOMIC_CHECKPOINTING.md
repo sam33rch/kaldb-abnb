@@ -14,30 +14,6 @@ its memtables into SSTs. Our primary requirement is that readers must never see
 data newer than the last published Kafka offset, even if the writer crashes and
 replays from its Kafka checkpoint.
 
-### Alternatives Considered
-
-1. **Holding back CLOUDMANIFEST updates**
-   - Initially appealing because `CLOUDMANIFEST` maps file numbers to epochs.
-   - In practice every instance sharing a cookie reads the same `MANIFEST` file.
-     Auto flush/compaction rewrites the manifest immediately, so readers would
-     still see “in-flight” SSTs even if we never rewrote `CLOUDMANIFEST`.
-
-2. **Cookie-based manifest rollover (per-reader cookie)**
-   - Creates isolated `CLOUDMANIFEST-<cookie>` + `MANIFEST-<epoch>` pairs.
-   - Readers must reopen with a new cookie to advance, which implies either
-     downtime or a blue/green reader rollout. We need a solution that works
-     without restarting cache nodes.
-
-3. **Embedding Kafka checkpoints in MANIFEST/WAL metadata**
-   - MANIFEST is the ground truth for RocksDB state; once a file’s version edit
-     is recorded, every reader must honor it. There is no supported way to ask
-     RocksDB to ignore entries past a custom watermark.
-   - WAL metadata (`PutLogData`) only affects WAL recovery, not the visibility
-     of flushed SSTs, so it cannot be used to gate readers.
-
-These options either failed to hide transient SSTs or required operational
-processes (cookie rollover) we cannot enforce on always-on readers.
-
 ### Selected Approach — Checkpoint Column Family + Atomic Flush
 
 We introduced a dedicated column family (CF) that stores the latest Kafka
@@ -75,6 +51,30 @@ Key RocksDB options and behaviors:
 In all cases, the Kafka offset recorded in RocksDB never advances past the data
 that was durably uploaded, which is the exact safety requirement for crash
 recovery.
+
+### Alternatives Considered
+
+1. **Holding back CLOUDMANIFEST updates**
+    - Initially appealing because `CLOUDMANIFEST` maps file numbers to epochs.
+    - In practice every instance sharing a cookie reads the same `MANIFEST` file.
+      Auto flush/compaction rewrites the manifest immediately, so readers would
+      still see “in-flight” SSTs even if we never rewrote `CLOUDMANIFEST`.
+
+2. **Cookie-based manifest rollover (per-reader cookie)**
+    - Creates isolated `CLOUDMANIFEST-<cookie>` + `MANIFEST-<epoch>` pairs.
+    - Readers must reopen with a new cookie to advance, which implies either
+      downtime or a blue/green reader rollout. We need a solution that works
+      without restarting cache nodes.
+
+3. **Embedding Kafka checkpoints in MANIFEST/WAL metadata**
+    - MANIFEST is the ground truth for RocksDB state; once a file’s version edit
+      is recorded, every reader must honor it. There is no supported way to ask
+      RocksDB to ignore entries past a custom watermark.
+    - WAL metadata (`PutLogData`) only affects WAL recovery, not the visibility
+      of flushed SSTs, so it cannot be used to gate readers.
+
+These options either failed to hide transient SSTs or required operational
+processes (cookie rollover) we cannot enforce on always-on readers.
 
 ### Reader Responsibilities
 
