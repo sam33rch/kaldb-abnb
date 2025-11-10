@@ -24,3 +24,7 @@ indices/
 
 # go vendor files.
 vendor/
+
+# External comparison sources
+rocksdb-cloud/
+third_party/rocksdb-cloud/
