@@ -1,0 +1,352 @@
+2025/11/10-15:02:41.390983 6139637760 [cloud_fs_impl] NeedsReinitialization: checking local dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer src bucket test-bucket src path rocksdb-cloud-poc dest bucket test-bucket dest path rocksdb-cloud-poc
+2025/11/10-15:02:41.391027 6139637760 [cloud_fs_impl] NeedsReinitialization: failed to find CURRENT file /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/CURRENT: NotFound: 
+2025/11/10-15:02:41.391029 6139637760 [cloud_fs_impl] SanitizeDirectory local directory /Users/deesam/workspace/kaldb/tmp/rocksdb-writer cleanup needed
+2025/11/10-15:02:41.391060 6139637760 [DEBUG] [cloud_fs_impl] SanitizeDirectory dest_equal_src = 1
+2025/11/10-15:02:41.392031 6139637760 [WARN] [aws] Encountered S3 failure No response body. (code 16, http 404). Exception . retry attempt 0 max retries 10. Using default retry policy...
+2025/11/10-15:02:41.392055 6139637760 [ERROR] [s3] GetObject test-bucket/rocksdb-cloud-poc/IDENTITY error No response body..
+2025/11/10-15:02:41.392109 6139637760 [cloud_fs_impl] No valid dbs in src bucket test-bucket src path rocksdb-cloud-poc or dest bucket test-bucket dest path rocksdb-cloud-poc
+2025/11/10-15:02:41.392111 6139637760 [WARN] [cloud_fs_impl] FetchCloudManifest: Src bucket matches dest bucket but resync_on_open not enabled. Force enabling it for now
+2025/11/10-15:02:41.392636 6139637760 [WARN] [aws] Encountered S3 failure No response body. (code 16, http 404). Exception . retry attempt 0 max retries 10. Using default retry policy...
+2025/11/10-15:02:41.392650 6139637760 [ERROR] [s3] GetObject test-bucket/rocksdb-cloud-poc/CLOUDMANIFEST-cloud-poc error No response body..
+2025/11/10-15:02:41.392701 6139637760 [cloud_fs_impl] FetchCloudManifest: No cloud manifest
+2025/11/10-15:02:41.392702 6139637760 CLOUDMANIFEST not found in the cloud, assuming this is a new database
+2025/11/10-15:02:41.397453 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.398341 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 2 files
+2025/11/10-15:02:41.398436 6139637760 RocksDB version: 9.1.1
+2025/11/10-15:02:41.398448 6139637760 Git sha 20a0918820ef89d71f4a059da4864db66678c38b
+2025/11/10-15:02:41.398449 6139637760 Compile date 2025-11-10 12:34:06
+2025/11/10-15:02:41.398450 6139637760 DB SUMMARY
+2025/11/10-15:02:41.398461 6139637760 Host name (Env):  Sameers-MacBook-Pro.local
+2025/11/10-15:02:41.398462 6139637760 DB Session ID:  BQ4NVACX0KXCBEJS38RP
+2025/11/10-15:02:41.398462 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.399005 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 2 files
+2025/11/10-15:02:41.399007 6139637760 SST files in /Users/deesam/workspace/kaldb/tmp/rocksdb-writer dir, Total Num: 0, files: 
+2025/11/10-15:02:41.399019 6139637760 Write Ahead Log file in /Users/deesam/workspace/kaldb/tmp/rocksdb-writer: 
+2025/11/10-15:02:41.399020 6139637760                         Options.error_if_exists: 0
+2025/11/10-15:02:41.399020 6139637760                       Options.create_if_missing: 1
+2025/11/10-15:02:41.399021 6139637760                         Options.paranoid_checks: 1
+2025/11/10-15:02:41.399021 6139637760             Options.flush_verify_memtable_count: 1
+2025/11/10-15:02:41.399022 6139637760          Options.compaction_verify_record_count: 1
+2025/11/10-15:02:41.399022 6139637760                               Options.track_and_verify_wals_in_manifest: 0
+2025/11/10-15:02:41.399023 6139637760        Options.verify_sst_unique_id_in_manifest: 1
+2025/11/10-15:02:41.399023 6139637760                                     Options.env: 0x6000020f0ea0
+2025/11/10-15:02:41.399024 6139637760                                      Options.fs: aws
+2025/11/10-15:02:41.399024 6139637760                                Options.info_log: 0x124d30318
+2025/11/10-15:02:41.399025 6139637760                Options.max_file_opening_threads: 16
+2025/11/10-15:02:41.399025 6139637760                              Options.statistics: 0x0
+2025/11/10-15:02:41.399026 6139637760                               Options.use_fsync: 0
+2025/11/10-15:02:41.399026 6139637760                       Options.max_log_file_size: 0
+2025/11/10-15:02:41.399026 6139637760                  Options.max_manifest_file_size: 4194304
+2025/11/10-15:02:41.399027 6139637760                   Options.log_file_time_to_roll: 0
+2025/11/10-15:02:41.399027 6139637760                       Options.keep_log_file_num: 1000
+2025/11/10-15:02:41.399028 6139637760                    Options.recycle_log_file_num: 0
+2025/11/10-15:02:41.399028 6139637760                         Options.allow_fallocate: 1
+2025/11/10-15:02:41.399029 6139637760                        Options.allow_mmap_reads: 0
+2025/11/10-15:02:41.399029 6139637760                       Options.allow_mmap_writes: 0
+2025/11/10-15:02:41.399030 6139637760                        Options.use_direct_reads: 0
+2025/11/10-15:02:41.399030 6139637760                        Options.use_direct_io_for_flush_and_compaction: 0
+2025/11/10-15:02:41.399031 6139637760          Options.create_missing_column_families: 0
+2025/11/10-15:02:41.399031 6139637760                              Options.db_log_dir: 
+2025/11/10-15:02:41.399031 6139637760                                 Options.wal_dir: 
+2025/11/10-15:02:41.399032 6139637760                Options.table_cache_numshardbits: 6
+2025/11/10-15:02:41.399032 6139637760                         Options.WAL_ttl_seconds: 0
+2025/11/10-15:02:41.399033 6139637760                       Options.WAL_size_limit_MB: 0
+2025/11/10-15:02:41.399033 6139637760                        Options.max_write_batch_group_size_bytes: 1048576
+2025/11/10-15:02:41.399034 6139637760             Options.manifest_preallocation_size: 4194304
+2025/11/10-15:02:41.399034 6139637760                     Options.is_fd_close_on_exec: 1
+2025/11/10-15:02:41.399035 6139637760                   Options.advise_random_on_open: 1
+2025/11/10-15:02:41.399035 6139637760                    Options.db_write_buffer_size: 0
+2025/11/10-15:02:41.399036 6139637760                    Options.write_buffer_manager: 0x600003fcc340
+2025/11/10-15:02:41.399036 6139637760           Options.random_access_max_buffer_size: 1048576
+2025/11/10-15:02:41.399036 6139637760                      Options.use_adaptive_mutex: 0
+2025/11/10-15:02:41.399037 6139637760                            Options.rate_limiter: 0x0
+2025/11/10-15:02:41.399038 6139637760     Options.sst_file_manager.rate_bytes_per_sec: 0
+2025/11/10-15:02:41.399038 6139637760                       Options.wal_recovery_mode: 2
+2025/11/10-15:02:41.399038 6139637760                  Options.enable_thread_tracking: 0
+2025/11/10-15:02:41.399039 6139637760                  Options.enable_pipelined_write: 0
+2025/11/10-15:02:41.399039 6139637760                  Options.unordered_write: 0
+2025/11/10-15:02:41.399040 6139637760         Options.allow_concurrent_memtable_write: 1
+2025/11/10-15:02:41.399040 6139637760      Options.enable_write_thread_adaptive_yield: 1
+2025/11/10-15:02:41.399041 6139637760             Options.write_thread_max_yield_usec: 100
+2025/11/10-15:02:41.399041 6139637760            Options.write_thread_slow_yield_usec: 3
+2025/11/10-15:02:41.399041 6139637760                               Options.row_cache: None
+2025/11/10-15:02:41.399042 6139637760                              Options.wal_filter: None
+2025/11/10-15:02:41.399043 6139637760             Options.avoid_flush_during_recovery: 0
+2025/11/10-15:02:41.399043 6139637760             Options.allow_ingest_behind: 0
+2025/11/10-15:02:41.399043 6139637760             Options.two_write_queues: 0
+2025/11/10-15:02:41.399044 6139637760             Options.manual_wal_flush: 0
+2025/11/10-15:02:41.399044 6139637760             Options.wal_compression: 0
+2025/11/10-15:02:41.399045 6139637760             Options.atomic_flush: 0
+2025/11/10-15:02:41.399045 6139637760             Options.avoid_unnecessary_blocking_io: 0
+2025/11/10-15:02:41.399046 6139637760                 Options.persist_stats_to_disk: 0
+2025/11/10-15:02:41.399046 6139637760                 Options.write_dbid_to_manifest: 0
+2025/11/10-15:02:41.399047 6139637760                 Options.log_readahead_size: 0
+2025/11/10-15:02:41.399047 6139637760                 Options.file_checksum_gen_factory: Unknown
+2025/11/10-15:02:41.399048 6139637760                 Options.best_efforts_recovery: 0
+2025/11/10-15:02:41.399048 6139637760                Options.max_bgerror_resume_count: 2147483647
+2025/11/10-15:02:41.399049 6139637760            Options.bgerror_resume_retry_interval: 1000000
+2025/11/10-15:02:41.399049 6139637760             Options.allow_data_in_errors: 0
+2025/11/10-15:02:41.399050 6139637760            Options.disable_manifest_sync: 0
+2025/11/10-15:02:41.399050 6139637760             Options.db_host_id: __hostname__
+2025/11/10-15:02:41.399051 6139637760             Options.enforce_single_del_contracts: true
+2025/11/10-15:02:41.399051 6139637760    Options.disable_delete_obsolete_files_on_open: false
+2025/11/10-15:02:41.399052 6139637760               Options.max_num_replication_epochs: 100
+2025/11/10-15:02:41.399052 6139637760               Options.attempt_recovery_after_manifest_write_error: 1
+2025/11/10-15:02:41.399053 6139637760             Options.max_background_jobs: 2
+2025/11/10-15:02:41.399053 6139637760             Options.max_background_compactions: -1
+2025/11/10-15:02:41.399054 6139637760             Options.max_subcompactions: 1
+2025/11/10-15:02:41.399054 6139637760             Options.avoid_flush_during_shutdown: 0
+2025/11/10-15:02:41.399055 6139637760           Options.writable_file_max_buffer_size: 1048576
+2025/11/10-15:02:41.399055 6139637760             Options.delayed_write_rate : 16777216
+2025/11/10-15:02:41.399056 6139637760             Options.max_total_wal_size: 0
+2025/11/10-15:02:41.399056 6139637760             Options.delete_obsolete_files_period_micros: 21600000000
+2025/11/10-15:02:41.399057 6139637760                   Options.stats_dump_period_sec: 600
+2025/11/10-15:02:41.399057 6139637760                 Options.stats_persist_period_sec: 600
+2025/11/10-15:02:41.399058 6139637760                 Options.stats_history_buffer_size: 1048576
+2025/11/10-15:02:41.399058 6139637760                          Options.max_open_files: -1
+2025/11/10-15:02:41.399058 6139637760                          Options.bytes_per_sync: 0
+2025/11/10-15:02:41.399059 6139637760                      Options.wal_bytes_per_sync: 0
+2025/11/10-15:02:41.399059 6139637760                   Options.strict_bytes_per_sync: 0
+2025/11/10-15:02:41.399060 6139637760       Options.compaction_readahead_size: 2097152
+2025/11/10-15:02:41.399060 6139637760                  Options.max_background_flushes: -1
+2025/11/10-15:02:41.399061 6139637760 Options.daily_offpeak_time_utc: 
+2025/11/10-15:02:41.399061 6139637760 Compression algorithms supported:
+2025/11/10-15:02:41.399062 6139637760 	kZSTD supported: 0
+2025/11/10-15:02:41.399062 6139637760 	kZlibCompression supported: 1
+2025/11/10-15:02:41.399063 6139637760 	kXpressCompression supported: 0
+2025/11/10-15:02:41.399064 6139637760 	kSnappyCompression supported: 0
+2025/11/10-15:02:41.399064 6139637760 	kZSTDNotFinalCompression supported: 0
+2025/11/10-15:02:41.399065 6139637760 	kLZ4HCCompression supported: 0
+2025/11/10-15:02:41.399065 6139637760 	kLZ4Compression supported: 0
+2025/11/10-15:02:41.399066 6139637760 	kBZip2Compression supported: 1
+2025/11/10-15:02:41.399071 6139637760 Fast CRC32 supported: Supported on Arm64
+2025/11/10-15:02:41.399072 6139637760 DMutex implementation: pthread_mutex_t
+2025/11/10-15:02:41.399072 6139637760 Jemalloc supported: 0
+2025/11/10-15:02:41.399073 6139637760 [DEBUG] [aws] CreateDirIfMissing dir '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.399078 6139637760 [DEBUG] [aws] CreateDirIfMissing created dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer OK
+2025/11/10-15:02:41.399079 6139637760 [DEBUG] [aws] CreateDirIfMissing dir '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.399081 6139637760 [DEBUG] [aws] CreateDirIfMissing created dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer OK
+2025/11/10-15:02:41.399103 6139637760 [DEBUG] [aws] CreateDirIfMissing dir '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.399105 6139637760 [DEBUG] [aws] CreateDirIfMissing created dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer OK
+2025/11/10-15:02:41.399106 6139637760 [DEBUG] [aws] NewDirectory name '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.399114 6139637760 [DEBUG] [aws] NewDirectory name /Users/deesam/workspace/kaldb/tmp/rocksdb-writer ok
+2025/11/10-15:02:41.399120 6139637760 [DEBUG] [aws] FileExists path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer/CURRENT' NotFound: 
+2025/11/10-15:02:41.399192 6139637760 [DEBUG] [aws] NewWritableFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/000000.dbtmp OK
+2025/11/10-15:02:41.406322 6139637760 [s3] PutCloudObject test-bucket/rocksdb-cloud-poc/IDENTITY, size 36, OK
+2025/11/10-15:02:41.406325 6139637760 [DEBUG] [aws] SaveDbid dbid b75090df-fe10-4b24-812e-b1264ed5a508 dir 'rocksdb-cloud-poc'
+2025/11/10-15:02:41.407682 6139637760 [test-bucket] Bucket aws SaveDbid dbid b75090df-fe10-4b24-812e-b1264ed5a508 dirname rocksdb-cloud-poc ok
+2025/11/10-15:02:41.407762 6139637760 [DEBUG] [aws] RenameFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/000000.dbtmp target /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/IDENTITY: OK
+2025/11/10-15:02:41.407764 6139637760 [DEBUG] [aws] NewDirectory name '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.407776 6139637760 [DEBUG] [aws] NewDirectory name /Users/deesam/workspace/kaldb/tmp/rocksdb-writer ok
+2025/11/10-15:02:41.412271 6139637760 [/db_impl/db_impl_open.cc:326] Creating manifest 1 
+2025/11/10-15:02:41.412920 6139637760 [WARN] [aws] Encountered S3 failure No response body. (code 16, http 404). Exception . retry attempt 0 max retries 10. Using default retry policy...
+2025/11/10-15:02:41.412954 6139637760 [DEBUG] [aws] FileExists path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6' NotFound: rocksdb-cloud-poc/MANIFEST-1bc2bf28d9608ab6: No response body.
+2025/11/10-15:02:41.412958 6139637760 [DEBUG] [cloud] CloudWritableFile bucket test-bucket opened local file /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6 cloud file rocksdb-cloud-poc/MANIFEST-1bc2bf28d9608ab6 manifest 1
+2025/11/10-15:02:41.413025 6139637760 [DEBUG] [aws] NewWritableFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6 OK
+2025/11/10-15:02:41.419128 6139637760 [s3] PutCloudObject test-bucket/rocksdb-cloud-poc/MANIFEST-1bc2bf28d9608ab6, size 13, OK
+2025/11/10-15:02:41.419132 6139637760 [DEBUG] [s3] CloudWritableFile made manifest /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6 durable to bucket test-bucket bucketpath rocksdb-cloud-poc/MANIFEST-1bc2bf28d9608ab6.
+2025/11/10-15:02:41.419135 6139637760 [DEBUG] [s3] CloudWritableFile closing /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6
+2025/11/10-15:02:41.419216 6139637760 [DEBUG] [aws] NewWritableFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/000001.dbtmp OK
+2025/11/10-15:02:41.427117 6139637760 [/version_set.cc:6220] Recovering from manifest file: /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-000001
+2025/11/10-15:02:41.427129 6139637760 [DEBUG] [aws] NewSequentialFile file /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-1bc2bf28d9608ab6 OK
+2025/11/10-15:02:41.427213 6139637760 [/column_family.cc:628] --------------- Options for column family [default]:
+2025/11/10-15:02:41.427215 6139637760               Options.comparator: leveldb.BytewiseComparator
+2025/11/10-15:02:41.427215 6139637760           Options.merge_operator: None
+2025/11/10-15:02:41.427216 6139637760        Options.compaction_filter: None
+2025/11/10-15:02:41.427217 6139637760        Options.compaction_filter_factory: None
+2025/11/10-15:02:41.427217 6139637760  Options.sst_partitioner_factory: None
+2025/11/10-15:02:41.427218 6139637760         Options.memtable_factory: SkipListFactory
+2025/11/10-15:02:41.427218 6139637760            Options.table_factory: BlockBasedTable
+2025/11/10-15:02:41.427241 6139637760            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (0x6000004e59c0)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 0x600003fc1468
+  block_cache_name: LRUCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 6
+    strict_capacity_limit : 0
+    memory_allocator : None
+    high_pri_pool_ratio: 0.500
+    low_pri_pool_ratio: 0.000
+  persistent_cache: 0x0
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 6
+  enable_index_compression: 1
+  block_align: 0
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2025/11/10-15:02:41.427242 6139637760        Options.write_buffer_size: 67108864
+2025/11/10-15:02:41.427243 6139637760  Options.max_write_buffer_number: 2
+2025/11/10-15:02:41.427244 6139637760          Options.compression: NoCompression
+2025/11/10-15:02:41.427244 6139637760                  Options.bottommost_compression: Disabled
+2025/11/10-15:02:41.427245 6139637760       Options.prefix_extractor: nullptr
+2025/11/10-15:02:41.427245 6139637760   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2025/11/10-15:02:41.427246 6139637760             Options.num_levels: 7
+2025/11/10-15:02:41.427246 6139637760        Options.min_write_buffer_number_to_merge: 1
+2025/11/10-15:02:41.427247 6139637760     Options.max_write_buffer_number_to_maintain: 0
+2025/11/10-15:02:41.427247 6139637760     Options.max_write_buffer_size_to_maintain: 0
+2025/11/10-15:02:41.427248 6139637760            Options.bottommost_compression_opts.window_bits: -14
+2025/11/10-15:02:41.427248 6139637760                  Options.bottommost_compression_opts.level: 32767
+2025/11/10-15:02:41.427249 6139637760               Options.bottommost_compression_opts.strategy: 0
+2025/11/10-15:02:41.427250 6139637760         Options.bottommost_compression_opts.max_dict_bytes: 0
+2025/11/10-15:02:41.427250 6139637760         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2025/11/10-15:02:41.427251 6139637760         Options.bottommost_compression_opts.parallel_threads: 1
+2025/11/10-15:02:41.427251 6139637760                  Options.bottommost_compression_opts.enabled: false
+2025/11/10-15:02:41.427252 6139637760         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2025/11/10-15:02:41.427252 6139637760         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2025/11/10-15:02:41.427253 6139637760            Options.compression_opts.window_bits: -14
+2025/11/10-15:02:41.427253 6139637760                  Options.compression_opts.level: 32767
+2025/11/10-15:02:41.427254 6139637760               Options.compression_opts.strategy: 0
+2025/11/10-15:02:41.427254 6139637760         Options.compression_opts.max_dict_bytes: 0
+2025/11/10-15:02:41.427255 6139637760         Options.compression_opts.zstd_max_train_bytes: 0
+2025/11/10-15:02:41.427255 6139637760         Options.compression_opts.use_zstd_dict_trainer: true
+2025/11/10-15:02:41.427256 6139637760         Options.compression_opts.parallel_threads: 1
+2025/11/10-15:02:41.427256 6139637760                  Options.compression_opts.enabled: false
+2025/11/10-15:02:41.427257 6139637760         Options.compression_opts.max_dict_buffer_bytes: 0
+2025/11/10-15:02:41.427257 6139637760      Options.level0_file_num_compaction_trigger: 4
+2025/11/10-15:02:41.427258 6139637760          Options.level0_slowdown_writes_trigger: 20
+2025/11/10-15:02:41.427258 6139637760              Options.level0_stop_writes_trigger: 36
+2025/11/10-15:02:41.427259 6139637760                   Options.target_file_size_base: 67108864
+2025/11/10-15:02:41.427259 6139637760             Options.target_file_size_multiplier: 1
+2025/11/10-15:02:41.427260 6139637760                Options.max_bytes_for_level_base: 268435456
+2025/11/10-15:02:41.427260 6139637760 Options.level_compaction_dynamic_level_bytes: 1
+2025/11/10-15:02:41.427261 6139637760          Options.max_bytes_for_level_multiplier: 10.000000
+2025/11/10-15:02:41.427261 6139637760 Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2025/11/10-15:02:41.427262 6139637760 Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2025/11/10-15:02:41.427262 6139637760 Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2025/11/10-15:02:41.427263 6139637760 Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2025/11/10-15:02:41.427263 6139637760 Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2025/11/10-15:02:41.427264 6139637760 Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2025/11/10-15:02:41.427264 6139637760 Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2025/11/10-15:02:41.427265 6139637760       Options.max_sequential_skip_in_iterations: 8
+2025/11/10-15:02:41.427265 6139637760                    Options.max_compaction_bytes: 1677721600
+2025/11/10-15:02:41.427266 6139637760                        Options.arena_block_size: 1048576
+2025/11/10-15:02:41.427266 6139637760   Options.soft_pending_compaction_bytes_limit: 68719476736
+2025/11/10-15:02:41.427267 6139637760   Options.hard_pending_compaction_bytes_limit: 274877906944
+2025/11/10-15:02:41.427267 6139637760                Options.disable_auto_compactions: 0
+2025/11/10-15:02:41.427268 6139637760                        Options.compaction_style: kCompactionStyleLevel
+2025/11/10-15:02:41.427269 6139637760                          Options.compaction_pri: kMinOverlappingRatio
+2025/11/10-15:02:41.427269 6139637760 Options.compaction_options_universal.size_ratio: 1
+2025/11/10-15:02:41.427270 6139637760 Options.compaction_options_universal.min_merge_width: 2
+2025/11/10-15:02:41.427270 6139637760 Options.compaction_options_universal.max_merge_width: 4294967295
+2025/11/10-15:02:41.427271 6139637760 Options.compaction_options_universal.max_size_amplification_percent: 200
+2025/11/10-15:02:41.427271 6139637760 Options.compaction_options_universal.compression_size_percent: -1
+2025/11/10-15:02:41.427272 6139637760 Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2025/11/10-15:02:41.427272 6139637760 Options.compaction_options_fifo.max_table_files_size: 1073741824
+2025/11/10-15:02:41.427273 6139637760 Options.compaction_options_fifo.allow_compaction: 0
+2025/11/10-15:02:41.427273 6139637760                   Options.table_properties_collectors: 
+2025/11/10-15:02:41.427274 6139637760                   Options.inplace_update_support: 0
+2025/11/10-15:02:41.427274 6139637760                 Options.inplace_update_num_locks: 10000
+2025/11/10-15:02:41.427275 6139637760               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2025/11/10-15:02:41.427275 6139637760               Options.memtable_whole_key_filtering: 0
+2025/11/10-15:02:41.427276 6139637760   Options.memtable_huge_page_size: 0
+2025/11/10-15:02:41.427276 6139637760                           Options.bloom_locality: 0
+2025/11/10-15:02:41.427277 6139637760                    Options.max_successive_merges: 0
+2025/11/10-15:02:41.427277 6139637760             Options.strict_max_successive_merges: 0
+2025/11/10-15:02:41.427278 6139637760                Options.optimize_filters_for_hits: 0
+2025/11/10-15:02:41.427278 6139637760                Options.paranoid_file_checks: 0
+2025/11/10-15:02:41.427279 6139637760                Options.force_consistency_checks: 1
+2025/11/10-15:02:41.427279 6139637760                Options.report_bg_io_stats: 0
+2025/11/10-15:02:41.427280 6139637760                               Options.ttl: 2592000
+2025/11/10-15:02:41.427280 6139637760          Options.periodic_compaction_seconds: 0
+2025/11/10-15:02:41.427281 6139637760                        Options.default_temperature: kUnknown
+2025/11/10-15:02:41.427281 6139637760  Options.preclude_last_level_data_seconds: 0
+2025/11/10-15:02:41.427282 6139637760    Options.preserve_internal_time_seconds: 0
+2025/11/10-15:02:41.427282 6139637760                       Options.enable_blob_files: false
+2025/11/10-15:02:41.427283 6139637760                           Options.min_blob_size: 0
+2025/11/10-15:02:41.427283 6139637760                          Options.blob_file_size: 268435456
+2025/11/10-15:02:41.427284 6139637760                   Options.blob_compression_type: NoCompression
+2025/11/10-15:02:41.427284 6139637760          Options.enable_blob_garbage_collection: false
+2025/11/10-15:02:41.427285 6139637760      Options.blob_garbage_collection_age_cutoff: 0.250000
+2025/11/10-15:02:41.427285 6139637760 Options.blob_garbage_collection_force_threshold: 1.000000
+2025/11/10-15:02:41.427286 6139637760          Options.blob_compaction_readahead_size: 0
+2025/11/10-15:02:41.427286 6139637760                      Options.disable_auto_flush: 0
+2025/11/10-15:02:41.427287 6139637760                     Options.disable_write_stall: 0
+2025/11/10-15:02:41.427287 6139637760                Options.blob_file_starting_level: 0
+2025/11/10-15:02:41.427288 6139637760         Options.experimental_mempurge_threshold: 0.000000
+2025/11/10-15:02:41.427288 6139637760            Options.memtable_max_range_deletions: 0
+2025/11/10-15:02:41.427569 6139637760 [/version_set.cc:6271] Recovered from manifest file:/Users/deesam/workspace/kaldb/tmp/rocksdb-writer/MANIFEST-000001 succeeded,manifest_file_number is 1, next_file_number is 3, last_sequence is 0, log_number is 0,prev_log_number is 0,max_column_family is 0,min_log_number_to_keep is 0
+2025/11/10-15:02:41.427570 6139637760 [/version_set.cc:6282] Column family [default] (ID 0), log number is 0, next epoch number is 1
+2025/11/10-15:02:41.427588 6139637760 [DEBUG] [aws] FileExists path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer/IDENTITY' OK
+2025/11/10-15:02:41.427599 6139637760 [DEBUG] [aws] NewSequentialFile file /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/IDENTITY OK
+2025/11/10-15:02:41.427607 6139637760 [/db_impl/db_impl_open.cc:653] DB ID: b75090df-fe10-4b24-812e-b1264ed5a508
+2025/11/10-15:02:41.427619 6139637760 [DEBUG] [aws] CreateDirIfMissing dir '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.427624 6139637760 [DEBUG] [aws] CreateDirIfMissing created dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer OK
+2025/11/10-15:02:41.427625 6139637760 [DEBUG] [aws] NewDirectory name '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.427633 6139637760 [DEBUG] [aws] NewDirectory name /Users/deesam/workspace/kaldb/tmp/rocksdb-writer ok
+2025/11/10-15:02:41.427644 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.428799 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 5 files
+2025/11/10-15:02:41.428868 6139637760 [DEBUG] [aws] NewWritableFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/000003.log OK
+2025/11/10-15:02:41.428978 6139637760 [DEBUG] [aws] NewWritableFile src /Users/deesam/workspace/kaldb/tmp/rocksdb-writer/OPTIONS-000004.dbtmp OK
+2025/11/10-15:02:41.433642 6139637760 [DEBUG] [aws] GetFileSize src '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer/OPTIONS-000004.dbtmp' OK 7415
+2025/11/10-15:02:41.433709 6139637760 [DEBUG] [aws] NewDirectory name '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer'
+2025/11/10-15:02:41.433720 6139637760 [DEBUG] [aws] NewDirectory name /Users/deesam/workspace/kaldb/tmp/rocksdb-writer ok
+2025/11/10-15:02:41.438151 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.438959 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 7 files
+2025/11/10-15:02:41.438965 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.439741 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 7 files
+2025/11/10-15:02:41.439824 6139637760 [/db_impl/db_impl_open.cc:2213] SstFileManager instance 0x12b604570
+2025/11/10-15:02:41.439841 6139637760 [DEBUG] [aws] GetChildren path '/Users/deesam/workspace/kaldb/tmp/rocksdb-writer' 
+2025/11/10-15:02:41.440466 6139637760 [DEBUG] [aws] GetChildren /Users/deesam/workspace/kaldb/tmp/rocksdb-writer successfully returned 7 files
+2025/11/10-15:02:41.440469 6139637760 DB pointer 0x12d817400
+2025/11/10-15:02:41.440573 6185103360 [/db_impl/db_impl.cc:1182] ------- DUMPING STATS -------
+2025/11/10-15:02:41.440576 6185103360 [/db_impl/db_impl.cc:1183] 
+** DB Stats **
+Uptime(secs): 0.0 total, 0.0 interval
+Cumulative writes: 0 writes, 0 keys, 0 commit groups, 0.0 writes per commit group, ingest: 0.00 GB, 0.00 MB/s
+Cumulative WAL: 0 writes, 0 syncs, 0.00 writes per sync, written: 0.00 GB, 0.00 MB/s
+Cumulative stall: 00:00:0.000 H:M:S, 0.0 percent
+Interval writes: 0 writes, 0 keys, 0 commit groups, 0.0 writes per commit group, ingest: 0.00 MB, 0.00 MB/s
+Interval WAL: 0 writes, 0 syncs, 0.00 writes per sync, written: 0.00 GB, 0.00 MB/s
+Interval stall: 00:00:0.000 H:M:S, 0.0 percent
+Write Stall (count): write-buffer-manager-limit-stops: 0
+
+** Compaction Stats [default] **
+Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sum      0/0    0.00 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+ Int      0/0    0.00 KB   0.0      0.0     0.0      0.0       0.0      0.0       0.0   0.0      0.0      0.0      0.00              0.00         0    0.000       0      0       0.0       0.0
+
+** Compaction Stats [default] **
+Priority    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) Wnew(GB) Moved(GB) W-Amp Rd(MB/s) Wr(MB/s) Comp(sec) CompMergeCPU(sec) Comp(cnt) Avg(sec) KeyIn KeyDrop Rblob(GB) Wblob(GB)
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Blob file count: 0, total size: 0.0 GB, garbage size: 0.0 GB, space amp: 0.0
+
+Uptime(secs): 0.0 total, 0.0 interval
+Flush(GB): cumulative 0.000, interval 0.000
+AddFile(GB): cumulative 0.000, interval 0.000
+AddFile(Total Files): cumulative 0, interval 0
+AddFile(L0 Files): cumulative 0, interval 0
+AddFile(Keys): cumulative 0, interval 0
+Cumulative compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Interval compaction: 0.00 GB write, 0.00 MB/s write, 0.00 GB read, 0.00 MB/s read, 0.0 seconds
+Estimated pending compaction bytes: 0
+Write Stall (count): cf-l0-file-count-limit-delays-with-ongoing-compaction: 0, cf-l0-file-count-limit-stops-with-ongoing-compaction: 0, l0-file-count-limit-delays: 0, l0-file-count-limit-stops: 0, memtable-limit-delays: 0, memtable-limit-stops: 0, pending-compaction-bytes-delays: 0, pending-compaction-bytes-stops: 0, total-delays: 0, total-stops: 0
+Block cache LRUCache@0x600003fc1468#23280 capacity: 32.00 MB seed: 1146458674 usage: 0.08 KB table_size: 1024 occupancy: 1 collections: 1 last_copies: 0 last_secs: 3e-05 secs_since: 0
+Block cache entry stats(count,size,portion): Misc(1,0.00 KB,0%)
+
+** File Read Latency Histogram By Level [default] **
+2025/11/10-15:02:41.442237 6139637760 [s3] PutCloudObject test-bucket/rocksdb-cloud-poc/CLOUDMANIFEST-cloud-poc, size 34, OK
+2025/11/10-15:02:41.442240 6139637760 Opened cloud db with local dir /Users/deesam/workspace/kaldb/tmp/rocksdb-writer dbid b75090df-fe10-4b24-812e-b1264ed5a508. OK

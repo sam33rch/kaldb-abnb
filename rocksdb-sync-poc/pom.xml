@@ -21,22 +21,11 @@
     <dependencies>
         <dependency>
             <groupId>org.rocksdb</groupId>
-            <artifactId>rocksdbjni</artifactId>
-            <version>8.8.1</version>
+            <artifactId>rocksdb-cloud-jni</artifactId>
+            <version>9.1.1-cloud</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../rocksdb-cloud/java/target/rocksdbjni-9.1.1-osx.jar</systemPath>
         </dependency>
-
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
-            <version>2.28.24</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.18.0</version>
-        </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>

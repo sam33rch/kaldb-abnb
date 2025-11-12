@@ -98,6 +98,16 @@ is always the highest Kafka offset that has fully flushed to S3.
 - Readers that require strong publish control can still add cookie-based gating
   on top of this approach, but cookies are no longer required for crash safety.
 
+### Cloud Deletion Configuration
+
+- For KalDB’s RDBC sync protocol with a single cookie, configure the writer
+  with `delete_cloud_invisible_files_on_open=false`.
+  - Rationale: avoid deleting old MANIFEST/SST objects automatically on writer
+    open while any Cacher may still be serving or refreshing. Cleanup can be
+    orchestrated separately (e.g., via a maintenance window or S3 lifecycle).
+  - With this setting, opening the writer will not remove "invisible" cloud
+    files; readers remain safe to refresh at their own cadence.
+
 With the checkpoint CF + `atomic_flush` configuration, the writer can crash,
 replay from Kafka, and resume without risking “time travel” on readers: every
 durable SST in S3 always has a matching Kafka checkpoint stored in RocksDB.
