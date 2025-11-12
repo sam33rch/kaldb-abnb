@@ -28,3 +28,9 @@ vendor/
 # External comparison sources
 rocksdb-cloud/
 third_party/rocksdb-cloud/
+
+# RocksDB files
+*.sst
+*.db
+*.ldb
+tmp/rocksdb-backups/
