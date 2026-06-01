@@ -22,7 +22,7 @@
         <micrometer.version>1.15.1</micrometer.version>
         <armeria.version>1.32.5</armeria.version>
         <armeria-brave.version>1.27.3</armeria-brave.version>
-        <kafka.version>3.5.0</kafka.version>
+        <kafka.version>4.3.0</kafka.version>
         <jackson.version>2.19.1</jackson.version>
         <jackson.databind.version>2.19.1</jackson.databind.version>
         <lucene.version>9.7.0</lucene.version>
